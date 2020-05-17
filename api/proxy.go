@@ -30,8 +30,8 @@ func ProxyRouter() http.Handler {
 }
 
 func newProxy() proxyServer {
-	proxyAddr := viper.GetString("LISTING_SERVER")
-	proxyPrefix := viper.GetString("PROXY_PREFIX")
+	proxyAddr := viper.GetString("listing_server")
+	proxyPrefix := viper.GetString("proxy_prefix")
 
 	proxyURL, _ := url.Parse(proxyAddr)
 	reverseProxy := httputil.NewSingleHostReverseProxy(proxyURL)

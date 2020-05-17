@@ -21,8 +21,8 @@ type FileOperator struct {
 // FileOperatorInstance gets an instance of a FileOperator (You should only need one)
 func FileOperatorInstance() FileOperator {
 	fo := FileOperator{}
-	configShareServer := viper.GetString("SHARE_SERVER")
-	configShareFolder := viper.GetString("SHARE_FOLDER")
+	configShareServer := viper.GetString("share_server")
+	configShareFolder := viper.GetString("share_folder")
 
 	fo.ShareServer = configShareServer
 	fo.ShareFolder = configShareFolder
@@ -34,7 +34,7 @@ func FileOperatorInstance() FileOperator {
 	case "windows":
 		fo.MountPoint = "//" + fo.ShareServer + "/" + fo.ShareFolder
 	case "darwin":
-		fo.MountPoint = viper.GetString("OSX_MOUNT")
+		fo.MountPoint = viper.GetString("osx_mount")
 	default:
 		log.Fatalf("%s not supported.", os)
 	}
@@ -79,7 +79,7 @@ func (fo FileOperator) MountSmb(silent bool) error {
 
 func isMounted(sharename string, silent bool) bool {
 	cmd := getCheckMountCmd(sharename)
-	out, err := cmd.Output()
+	_, err := cmd.Output()
 	if err != nil {
 		if silent == false {
 			log.Printf("Error from mount check: %s", err)
@@ -87,7 +87,8 @@ func isMounted(sharename string, silent bool) bool {
 		return false
 	} else {
 		if silent == false {
-			log.Printf("%s is mounted.\n%s", sharename, out)
+			log.Printf("%s is mounted.\n", sharename)
+			// log.Printf("%s is mounted.\n%s", sharename, out)
 		}
 		return true
 	}
