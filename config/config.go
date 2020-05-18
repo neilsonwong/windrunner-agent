@@ -18,6 +18,7 @@ type Config struct {
 	ShareServerAddr string `mapstructure:"share_server_addr" json:"share_server_addr"`
 	ShareFolder     string `mapstructure:"share_folder" json:"share_folder"`
 	ListingServer   string `mapstructure:"listing_server" json:"listing_server"`
+	ProxyPrefix     string `mapstructure:"proxy_prefix" json:"proxy_prefix"`
 	OsxMountPoint   string `mapstructure:"osx_mount" json:"osx_mount"`
 	ServerPort      int    `mapstructure:"server_port" json:"server_port"`
 }

@@ -4,6 +4,7 @@
 	"share_server_addr": "192.168.0.118",
 	"share_folder": "seagate",
 	"listing_server": "http://192.168.0.118:9876",
+	"proxy_prefix": "/proxy",
 	"osx_mount": "~/rpi",
 	"server_port": 8080
 }
