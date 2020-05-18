@@ -28,6 +28,7 @@ function package {
 
 	OS=$1
 	ARCH=$2
+	ARCHNUM=""
 	EXT="sh"
 	EXE=""
 
@@ -36,8 +37,13 @@ function package {
 		EXE=".exe"
 	fi
 
+	if [ $ARCH = "amd64" ]; then
+		ARCHNUM="64"
+	fi
+
+
 	setup
-	cp "bin/$OS/agent$EXE" "build/agent$EXE"
+	cp "bin/$OS/agent$ARCHNUM$EXE" "build/agent$EXE"
 	cp "install/install_$OS.$EXT" "build/"
 	cp "install/update_$OS.$EXT" "build/"
 	cp "./config.json" "build/"
