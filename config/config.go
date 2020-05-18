@@ -13,12 +13,13 @@ import (
 
 // Config holds the go model for the config json file
 type Config struct {
-	Version       string `mapstructure:"version" json:"version"`
-	ShareServer   string `mapstructure:"share_server" json:"share_server"`
-	ShareFolder   string `mapstructure:"share_folder" json:"share_folder"`
-	ListingServer string `mapstructure:"listing_server" json:"listing_server"`
-	OsxMountPoint string `mapstructure:"osx_mount" json:"osx_mount"`
-	ServerPort    int    `mapstructure:"server_port" json:"server_port"`
+	Version         string `mapstructure:"version" json:"version"`
+	ShareServer     string `mapstructure:"share_server" json:"share_server"`
+	ShareServerAddr string `mapstructure:"share_server_addr" json:"share_server_addr"`
+	ShareFolder     string `mapstructure:"share_folder" json:"share_folder"`
+	ListingServer   string `mapstructure:"listing_server" json:"listing_server"`
+	OsxMountPoint   string `mapstructure:"osx_mount" json:"osx_mount"`
+	ServerPort      int    `mapstructure:"server_port" json:"server_port"`
 }
 
 // Load loads the config into viper and returns and config object
@@ -65,7 +66,7 @@ func Update(updates *Config) {
 	err := ioutil.WriteFile("config.json", file, 0755)
 
 	if err != nil {
-		log.Printf("error writing config file", err.Error())
+		log.Printf("error writing config file\n%s", err.Error())
 	}
 
 	// only reloads the config, wont restart the application

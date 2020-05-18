@@ -12,10 +12,11 @@ import (
 
 // FileOperator contains methods specialized to the running OS
 type FileOperator struct {
-	ShareServer string
-	ShareFolder string
-	ShareName   string
-	MountPoint  string
+	ShareServer     string
+	ShareServerAddr string
+	ShareFolder     string
+	ShareName       string
+	MountPoint      string
 }
 
 // FileOperatorInstance gets an instance of a FileOperator (You should only need one)
@@ -26,6 +27,7 @@ func FileOperatorInstance() FileOperator {
 
 	fo.ShareServer = configShareServer
 	fo.ShareFolder = configShareFolder
+	fo.ShareServerAddr = viper.GetString("share_server_addr")
 	fo.ShareName = "//" + fo.ShareServer + "/" + fo.ShareFolder
 
 	switch os := runtime.GOOS; os {
@@ -34,6 +36,8 @@ func FileOperatorInstance() FileOperator {
 	case "windows":
 		fo.MountPoint = "//" + fo.ShareServer + "/" + fo.ShareFolder
 	case "darwin":
+		// newer versions disable netBIOS by default, so we just use the address manually
+		fo.ShareName = "//" + fo.ShareServerAddr + "/" + fo.ShareFolder
 		fo.MountPoint = viper.GetString("osx_mount")
 	default:
 		log.Fatalf("%s not supported.", os)
@@ -63,8 +67,10 @@ func (fo FileOperator) MountSmb(silent bool) error {
 		return nil
 	} else {
 		cmd := getMountCmd(fo.ShareName, fo.MountPoint)
+		log.Printf("mounting %s", fo.ShareName)
 		if err := cmd.Run(); err != nil {
 			if silent == false {
+				log.Printf(cmd.String())
 				log.Printf("Error mounting %s: %s", fo.ShareName, err)
 			}
 			return err
@@ -79,10 +85,11 @@ func (fo FileOperator) MountSmb(silent bool) error {
 
 func isMounted(sharename string, silent bool) bool {
 	cmd := getCheckMountCmd(sharename)
-	_, err := cmd.Output()
+	out, err := cmd.Output()
 	if err != nil {
 		if silent == false {
-			log.Printf("Error from mount check: %s", err)
+			log.Printf(cmd.String())
+			log.Printf("Error from mount check: %s\n%s", err, out)
 		}
 		return false
 	} else {

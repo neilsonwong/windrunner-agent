@@ -1,8 +1,9 @@
 {
-	"VERSION": "1.1.2",
-	"SHARE_SERVER": "honoka",
-	"SHARE_FOLDER": "seagate",
-	"LISTING_SERVER": "http://192.168.0.118:9876",
-	"OSX_MOUNT": "~/rpi",
-	"SERVER_PORT": 8080
+	"version": "1.1.2",
+	"share_server": "honoka",
+	"share_server_addr": "192.168.0.118",
+	"share_folder": "seagate",
+	"listing_server": "http://192.168.0.118:9876",
+	"osx_mount": "~/rpi",
+	"server_port": 8080
 }
