@@ -15,6 +15,8 @@ func AgentRouter() http.Handler {
 	fileOperator := tools.FileOperatorInstance()
 	r := chi.NewRouter()
 
+	r.Use(CORSMiddleware())
+
 	// define routes
 	r.Post("/play", handlePlay(&fileOperator))
 	r.Get("/doki", handleHeartbeat)

@@ -11,6 +11,7 @@ import (
 // ConfigRouter handles viewing and editing agent config settings
 func ConfigRouter() http.Handler {
 	r := chi.NewRouter()
+	r.Use(CORSMiddleware())
 
 	r.Get("/", handleGetConfig)
 	r.Put("/", handleEditConfig)

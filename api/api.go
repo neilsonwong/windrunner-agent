@@ -22,7 +22,7 @@ func ListenAndServe() {
 
 	router := chi.NewRouter()
 	// router.Use(middleware.Logger)
-	router.Use(CORSMiddleware())
+	// router.Use(CORSMiddleware())
 	router.Use(middleware.Timeout(60 * time.Second))
 
 	router.Mount(proxyPrefix, ProxyRouter())
