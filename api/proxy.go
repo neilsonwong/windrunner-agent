@@ -58,11 +58,20 @@ func fixProxyHeadersMiddleware(ps *proxyServer) func(http.Handler) http.Handler 
 			// rewrite the req path
 			req.URL.Host = ps.url.Host
 			req.URL.Scheme = ps.url.Scheme
+
 			// use the requestURI as that preserves the "non sanitation" needed to preserve urlEncodes
-			req.URL.Path = strings.Replace(req.URL.RequestURI(), ps.prefix, "", 1)
+			req.URL.Path = getPathFromURI(req.URL.RequestURI(), ps.prefix)
 			req.Header.Set("X-Forwarded-Host", req.Header.Get("Host"))
 			req.Host = ps.url.Host
 			next.ServeHTTP(res, req)
 		})
 	}
+}
+
+func getPathFromURI(uri string, prefix string) string {
+	// split by "?" to get rid of the params separator, if it's not escaped, that is the fault of the caller!
+	urlParts := strings.Split(uri, "?")
+
+	// remove the proxy prefix to fix the url
+	return strings.Replace(urlParts[0], prefix, "", 1)
 }
