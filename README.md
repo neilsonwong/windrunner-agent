@@ -32,15 +32,15 @@ Configuration is done through a config.json file. The details on configuration a
     // folder being shared
     "share_folder": "VIDEOS",
     // osx mount folder
-	"osx_mount": "/my/mount/point",
+    "osx_mount": "/my/mount/point",
 
     // Proxy Server Configuration
     // address of the windrunner server
-	"listing_server": "http://192.168.0.123:9876",
+    "listing_server": "http://192.168.0.123:9876",
     // proxy all calls that match the following prefix
     "proxy_prefix": "/proxy",
     // agent api port
-	"server_port": 8080
+    "server_port": 8080
 }
 ```
 
